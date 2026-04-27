@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PORTAL JF - Notícia em Destaque</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            scroll-behavior: smooth;
+            transition: all 0.3s ease;
+        }
+        /* Temas */
+        body.theme-journal {
+            background: #fff;
+            color: #000;
+            --primary: #000;
+            --secondary: #ffffff;
+            --accent: #cc0000;
+        }
+        
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--primary);
+            color: var(--secondary);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+        }
+        nav a {
+            color: inherit;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        nav a:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+        .search-box {
+            display: flex;
+            background: #fff;
+            border-radius: 25px;
+            padding: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .search-box input {
+            border: none;
+            outline: none;
+            padding: 0.5rem;
+            width: 200px;
+        }
+        .theme-toggle {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .theme-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: var(--secondary);
+            color: var(--primary);
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 3px;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--accent);
+            transition: 0.3s;
+        }
+        main {
+            margin-top: 80px;
+            padding: 2rem;
+        }
+        section {
+            margin-bottom: 4rem;
+        }
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 1.5rem;
+        }
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        .card p {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        .read-more {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        #inicio .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://source.unsplash.com/1200x400/?news,brazil');
+            background-size: cover;
+            color: #fff;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+        .breaking-news {
+            background: var(--accent);
+            color: #fff;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        footer {
+            background: var(--primary);
+            color: var(--secondary);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-container nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--primary);
+                flex-direction: column;
+                padding: 1rem;
+            }
+            .nav-container nav.active {
+                display: flex;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .search-box input {
+                width: 150px;
+            }
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* Search filter */
+        .card.hidden {
+            display: none;
+        }
+                /* MODAL OVERLAY - PRIVACIDADE LGPD */
+                .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .modal-content .close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .modal-content .close:hover {
+            color: var(--primary);
+        }
+        
+        .modal-content h2 {
+            margin-top: 0;
+            border-bottom: 3px solid var(--accent);
+        }
+        
+        .modal-content h3 {
+            color: var(--primary);
+            margin-top: 1.5rem;
+        }
+        
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .contact-form input,
+        .contact-form textarea {
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .contact-form button {
+            background: var(--accent);
+            color: #fff;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .contact-form button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body class="theme-journal">
+    <header>
+        <div class="logo">PORTAL JF - A NOTÍCIA EM DESTAQUE</div>
+        <div class="nav-container">
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Início</a></li>
+                    <li><a href="#politica">Política</a></li>
+                    <li><a href="#economia">Economia</a></li>
+                    <li><a href="#esportes">Esportes</a></li>
+                    <li><a href="#saude">Saúde</a></li>
+                    <li><a href="#entretenimento">Entretenimento</a></li>
+                </ul>
+            </nav>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar notícias...">
+            </div>
+            
+            <div class="hamburger" onclick="toggleHamburger()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio">
+            <div class="breaking-news">
+                <strong>URGENTE:</strong> Governo anuncia pacote econômico de R$ 100 bilhões para 2025!
+            </div>
+            <div class="hero">
+                <h1>Últimas Notícias do Brasil</h1>
+                <p>Fique por dentro dos principais acontecimentos do país em tempo real.</p>
+            </div>
+            <h2>Principais Notícias</h2>
+            <div class="news-grid">
+                <!-- INÍCIO DA NOTÍCIA DE EXEMPLO 1 (INÍCIO) - PARA EDITAR: mude src da img, h3, p e href -->
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?brasil,politica" alt="Política">
+                    <!-- MUDE AQUI: URL da imagem real (ex: unsplash ou sua foto) -->
+                    <div class="card-content">
+                        <h3>Lula sanciona reforma tributária com vetos ao texto aprovado</h3>
+                        <!-- MUDE AQUI: Título da notícia -->
+                        <p>O presidente Luiz Inácio Lula da Silva sancionou a reforma tributária, unificando cinco impostos em um novo sistema para simplificar a cobrança.</p>
+                        <!-- MUDE AQUI: Resumo da notícia -->
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+                <!-- FIM DA NOTÍCIA DE EXEMPLO 1 -->
+
+                <!-- INÍCIO DA NOTÍCIA DE EXEMPLO 2 (INÍCIO) - REPITA O PADRÃO PARA MAIS NOTÍCIAS -->
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?economia,brasil" alt="Economia">
+                    <div class="card-content">
+                        <h3>IBGE: Inflação acumulada em 2024 fecha em 4,5%, abaixo das expectativas</h3>
+                        <p>Dados do IBGE mostram desaceleração da inflação, impulsionada pela queda nos preços de alimentos e energia.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+                <!-- FIM DA NOTÍCIA DE EXEMPLO 2 -->
+
+                <!-- INÍCIO DA NOTÍCIA DE EXEMPLO 3 -->
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?futebol,brasil" alt="Esportes">
+                    <div class="card-content">
+                        <h3>Seleção Brasileira vence Argentina e lidera Eliminatórias para 2026</h3>
+                        <p>Com gols de Vinicius Jr. e Rodrygo, Brasil assume a ponta das eliminatórias sul-americanas.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+                <!-- FIM DA NOTÍCIA DE EXEMPLO 3 -->
+            </div>
+        </section>
+
+        <section id="politica">
+            <h2>Política</h2>
+            <div class="news-grid">
+                <!-- NOTÍCIA 1 POLÍTICA -->
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?politica,lula" alt="Reforma Tributária">
+                    <div class="card-content">
+                        <h3>STF inicia julgamento sobre emendas de relator no orçamento</h3>
+                        <p>O Supremo Tribunal Federal analisa a legalidade das 'emendas pix', que destinam bilhões sem transparência.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+                <!-- NOTÍCIA 2 POLÍTICA -->
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?congresso,brasil" alt="Eleições 2026">
+                    <div class="card-content">
+                        <h3>Pré-candidatos à Presidência de 2026 intensificam articulações partidárias</h3>
+                        <p>Tarcísio de Freitas e Guilherme Boulos despontam como nomes fortes para 2026.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+                <!-- NOTÍCIA 3 POLÍTICA -->
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?eleicoes,brasil" alt="Congresso">
+                    <div class="card-content">
+                        <h3>Congresso aprova Orçamento de 2025 com foco em infraestrutura</h3>
+                        <p>Parlamentares destinam R$ 50 bi para rodovias e portos em todo o país.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="economia">
+            <h2>Economia</h2>
+            <div class="news-grid">
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?bolsa,valor" alt="Bolsa B3">
+                    <div class="card-content">
+                        <h3>B3 bate recorde histórico com Ibovespa acima de 140 mil pontos</h3>
+                        <p>Queda da Selic impulsiona ações de bancos e varejo na bolsa brasileira.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?emprego,brasil" alt="Emprego">
+                    <div class="card-content">
+                        <h3>Caged: Emprego formal cresce 2,5% em 2024, melhor marca em anos</h3>
+                        <p>Setor de serviços lidera contratações, com 1,5 milhão de vagas abertas.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?inflacao,ibge" alt="Inflação">
+                    <div class="card-content">
+                        <h3>BC projeta inflação em 4,2% para 2025 com política monetária</h3>
+                        <p>Banco Central mantém vigilância sobre preços de combustíveis e alimentos.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="esportes">
+            <h2>Esportes</h2>
+            <div class="news-grid">
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?futebol,selecao" alt="Seleção">
+                    <div class="card-content">
+                        <h3>Flamengo contrata Endrick do Real Madrid por empréstimo</h3>
+                        <p>Atacante brasileiro retorna ao Brasil para reforçar o Rubro-Negro no Brasileirão.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?olimpiadas,brasil" alt="Olimpíadas">
+                    <div class="card-content">
+                        <h3>Brasil conquista 15 ouros no Pan-Americano de 2025</h3>
+                        <p>Revezamento 4x100m e judô lideram medalhas para o país.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?futebol,palmeiras" alt="Campeonato">
+                    <div class="card-content">
+                        <h3>Palmeiras é tricampeão da Libertadores em final épica</h3>
+                        <p>Time alviverde derrota o River Plate nos pênaltis em Montevidéu.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="saude">
+            <h2>Saúde</h2>
+            <div class="news-grid">
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?dengue,vacina" alt="Dengue">
+                    <div class="card-content">
+                        <h3>MS amplia vacinação contra dengue para 10 milhões de doses em 2025</h3>
+                        <p>Campanha nacional visa reduzir surto que matou milhares no ano passado.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?covid,sus" alt="COVID">
+                    <div class="card-content">
+                        <h3>Casos de COVID-19 voltam a subir no inverno; reforço recomendado</h3>
+                        <p>Ministério da Saúde alerta para nova variante circulante no Brasil.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?hospital,sus" alt="SUS">
+                    <div class="card-content">
+                        <h3>SUS recebe R$ 12 bilhões para modernização de UPAs e hospitais</h3>
+                        <p>Investimento federal melhora atendimento em 500 municípios.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="entretenimento">
+            <h2>Entretenimento</h2>
+            <div class="news-grid">
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?filme,brasil" alt="Cinema">
+                    <div class="card-content">
+                        <h3>Wagner Moura estrela novo thriller de espionagem nos cinemas</h3>
+                        <p>'Invisível' estreia em janeiro de 2025 e já é cotado ao Oscar.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?musica,anitta" alt="Música">
+                    <div class="card-content">
+                        <h3>Anitta lança álbum 'Funk Generation' e quebra recordes no Spotify</h3>
+                        <p>Cantora brasileira domina paradas globais com hits em inglês e português.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://source.unsplash.com/400x250/?tv,bbb" alt="TV">
+                    <div class="card-content">
+                        <h3>BBB 25: Globo revela dinâmica inédita com votação anônima</h3>
+                        <p>Reality show retorna em janeiro com prêmio de R$ 3,5 milhões.</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        
+    </main>
+    
+
+    <footer>
+        <p>&copy; 2026 PORTAL JF. Todos os direitos reservados. | <a href="#" id="privacidade-link">Política de Privacidade</a></p>
+    </footer>
+
+        <!-- MODAL PRIVACIDADE LGPD -->
+        <div id="modal-overlay" class="modal-overlay">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Política de Privacidade (LGPD)</h2>
+                
+                <h3>Introdução</h3>
+                <p>Esta Política de Privacidade descreve como coletamos, usamos, compartilhamos e protegemos os dados pessoais dos usuários, em conformidade com a Lei Geral de Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018).</p>
+                
+                <h3>Dados Coletados</h3>
+                <p>Coletamos dados como nome, e-mail, telefone, endereço IP, dados de navegação e informações fornecidas em formulários de contato ou cadastro.</p>
+                
+                <h3>Cookies</h3>
+                <p>Utilizamos cookies para melhorar a experiência do usuário, analisar tráfego e personalizar conteúdo. Você pode gerenciar cookies nas configurações do navegador.</p>
+                
+                <h3>Uso dos Dados</h3>
+                <p>Os dados são usados para fornecer serviços, enviar comunicações, melhorar nossos produtos e cumprir obrigações legais.</p>
+                
+                <h3>Compartilhamento de Dados</h3>
+                <p>Não compartilhamos dados com terceiros sem consentimento, exceto para prestadores de serviços essenciais ou por exigência legal.</p>
+                
+                <h3>Segurança</h3>
+                <p>Adotamos medidas técnicas e administrativas para proteger os dados contra acesso não autorizado, perda ou alteração.</p>
+                
+                <h3>Seus Direitos (LGPD)</h3>
+                <p>Você tem direito a acesso, correção, exclusão, portabilidade, oposição ao tratamento e revogação de consentimento. Entre em contato conosco para exercer esses direitos.</p>
+                
+                <h3>Formulário de Contato</h3>
+                <form class="contact-form" onsubmit="event.preventDefault(); alert('Mensagem enviada! Entraremos em contato em breve.');">
+                    <input type="text" placeholder="Seu Nome" required>
+                    <input type="email" placeholder="Seu E-mail" required>
+                    <textarea placeholder="Sua Mensagem (ex: solicitação de direitos LGPD)" rows="5" required></textarea>
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+
+    <script>
+        // Toggle Hamburger Menu
+        function toggleHamburger() {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('active');
+        }
+
+        // Theme Toggle
+        function setTheme(theme) {
+            document.body.className = `theme-${theme}`;
+        }
+
+        // Search Functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const summary = card.querySelector('p').textContent.toLowerCase();
+                if (title.includes(term) || summary.includes(term)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+
+                // Modal Privacidade LGPD
+                const privacidadeLink = document.getElementById('privacidade-link');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const closeBtn = document.querySelector('.close');
+
+        privacidadeLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            modalOverlay.classList.add('active');
+        });
+
+        closeBtn.addEventListener('click', function() {
+            modalOverlay.classList.remove('active');
+        });
+
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                modalOverlay.classList.remove('active');
+            }
+        });
+        
+    </script>
+</body>
+</html>
