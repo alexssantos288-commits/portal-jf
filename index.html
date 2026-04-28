@@ -3,637 +3,627 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PORTAL JF - A Notícia em Destaque</title>
+    <title> PORTAL JF </title>
     <style>
+        :root {
+            --primary: #cc0000;
+            --dark: #000000;
+            --light: #ffffff;
+            --text: #333333;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
+
         body {
-            font-family: 'Arial', sans-serif;
+            background-color: var(--light);
+            color: var(--text);
             line-height: 1.6;
-            color: #333;
-            scroll-behavior: smooth;
-            transition: all 0.3s ease;
-            background: #fff;
         }
-        body.theme-journal {
-            --primary: #000;
-            --secondary: #ffffff;
-            --accent: #cc0000;
-        }
-        
+
+        /* HEADER */
         header {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 1rem 5%;
             position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
-            background: var(--primary);
-            color: var(--secondary);
-            padding: 0.8rem 1.5rem;
+            top: 0;
             z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+
         .logo {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
         }
+
         .nav-desktop {
             display: flex;
-            align-items: center;
-            gap: 1rem;
+            gap: 20px;
         }
-        .nav-desktop ul {
-            display: flex;
-            list-style: none;
-            gap: 1rem;
-        }
+
         .nav-desktop a {
-            color: inherit;
+            color: var(--light);
             text-decoration: none;
-            padding: 0.5rem 0.8rem;
-            border-radius: 5px;
-            transition: background 0.3s;
             font-size: 0.9rem;
-        }
-        .nav-desktop a:hover {
-            background: var(--accent);
-            color: #fff;
-        }
-        .search-box {
-            display: flex;
-            background: #fff;
-            border-radius: 25px;
-            padding: 0.4rem 0.8rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .search-box input {
-            border: none;
-            outline: none;
-            padding: 0.2rem;
-            width: 150px;
-        }
-        
-        main {
-            margin-top: 70px;
-            padding: 1rem;
-        }
-        section {
-            margin-bottom: 3rem;
-        }
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-            border-bottom: 3px solid var(--accent);
-            padding-bottom: 0.5rem;
-        }
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        .card {
-            background: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        .card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-        .card-content {
-            padding: 1.2rem;
-        }
-        .card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.8rem;
-            color: var(--primary);
-        }
-        .card p {
-            font-size: 0.95rem;
-            color: #666;
-            margin-bottom: 1rem;
-        }
-        .read-more {
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
+            font-weight: 500;
             cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 0.9rem;
+            transition: 0.3s;
         }
 
-        /* Breaking News Styles */
-        .breaking-news-container {
-            background: var(--accent);
-            color: #fff;
-            padding: 0.8rem 1rem;
-            margin-bottom: 1.5rem;
-            border-radius: 8px;
+        .nav-desktop a:hover {
+            color: var(--primary);
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--light);
+            background: none;
+            border: none;
+        }
+
+        /* SIDEBAR MOBILE */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 280px;
+            height: 100%;
+            background: var(--dark);
+            z-index: 2000;
+            transition: 0.4s;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            color: var(--light);
+            text-decoration: none;
+            padding: 1rem 0;
+            border-bottom: 1px solid #222;
+            cursor: pointer;
+        }
+
+        .overlay-sidebar {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1500;
+            cursor: pointer;
+        }
+
+        /* BREAKING NEWS */
+        .breaking-news {
+            margin-top: 70px;
+            background: var(--primary);
+            color: white;
+            padding: 10px 5%;
             display: flex;
             align-items: center;
-            position: relative;
             overflow: hidden;
-            min-height: 50px;
-        }
-        .news-carousel {
-            flex: 1;
-            margin: 0 40px;
-            text-align: center;
-            font-weight: bold;
-            transition: opacity 0.5s ease;
+            height: 50px;
         }
 
-        /* Hero Slider Styles (Horizontal Slide) */
-        .hero-slider {
+        .breaking-label {
+            font-weight: bold;
+            background: white;
+            color: var(--primary);
+            padding: 5px 10px;
+            margin-right: 15px;
+            white-space: nowrap;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+
+        #news-ticker {
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* SLIDER */
+        .slider-container {
             position: relative;
             width: 100%;
-            height: 400px;
+            height: 450px;
             overflow: hidden;
-            margin-bottom: 2rem;
-            border-radius: 15px;
+            margin-top: 0;
         }
-        .hero-slides {
+
+        .slides {
             display: flex;
-            height: 100%;
-            transition: transform 0.6s cubic-bezier(0.45, 0, 0.55, 1);
             width: 500%;
+            height: 100%;
+            transition: 0.6s ease-in-out;
         }
-        .hero-slide {
-            flex: 0 0 20%;
+
+        .slide {
+            width: 20%;
             height: 100%;
             background-size: cover;
             background-position: center;
             position: relative;
         }
-        .hero-slide::before {
-            content: '';
+
+        .slide-overlay {
             position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-        }
-        .hero-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 40px 5%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
             color: white;
-            text-align: center;
-            width: 90%;
-            max-width: 800px;
         }
-        .hero-content h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+
+        .slide-overlay h2 {
+            font-size: 1.8rem;
+            margin: 0;
         }
-        .hero-content p {
-            font-size: 1.1rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+
+        /* CONTAINER */
+        .container {
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .prev-hero, .next-hero {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.3);
-            color: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 20;
+
+        .section-title {
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+            margin: 2rem 0 1.5rem;
             font-size: 1.5rem;
+            text-transform: uppercase;
+            color: var(--dark);
         }
-        .prev-hero { left: 15px; }
-        .next-hero { right: 15px; }
 
-        footer {
-            background: var(--primary);
-            color: #fff;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
+        /* NEWS GRID */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 3rem;
         }
-        footer a { color: #fff; text-decoration: underline; }
 
-        /* Modal LGPD */
-        .modal-overlay {
+        .news-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-card-content {
+            padding: 1.5rem;
+        }
+
+        .news-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .news-card p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* MODALS */
+        .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            inset: 0;
+            background: rgba(0,0,0,0.8);
             z-index: 3000;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-        .modal-overlay.active { display: flex; }
+
+        .modal.active {
+            display: flex;
+        }
+
         .modal-content {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            width: 90%;
+            background: white;
+            width: 100%;
             max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
+            border-radius: 10px;
             position: relative;
+            padding: 2.5rem;
+            max-height: 90vh;
+            overflow-y: auto;
         }
+
         .close-modal {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
             cursor: pointer;
-            color: var(--accent);
-        }
-
-        /* MENU HAMBURGER */
-        .hamburger {
+            color: var(--primary);
             background: none;
             border: none;
-            font-size: 28px;
-            cursor: pointer;
-            padding: 5px;
-            z-index: 1002;
-            color: #fff;
-            display: flex;
-            align-items: center;
         }
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 280px;
-            height: 100vh;
-            background: white;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.2);
-            transform: translateX(-100%);
-            transition: transform 0.3s ease-in-out;
-            z-index: 2001;
-            overflow-y: auto;
+
+        .close-modal:hover {
+            color: #a00000;
         }
-        .sidebar.active {
-            transform: translateX(0);
+
+        .modal h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
         }
-        .overlay-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
+
+        /* FORM */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group textarea {
             width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease-in-out;
-            z-index: 2000;
-        }
-        .overlay-menu.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            border-bottom: 2px solid #f0f0f0;
-            background: #f9f9f9;
-        }
-        .menu-header h3 {
-            margin: 0;
-            font-size: 1.2rem;
-            color: var(--accent);
-            font-weight: bold;
-        }
-        .close-btn-sidebar {
-            background: none;
-            border: none;
-            font-size: 32px;
-            cursor: pointer;
-            color: #333;
-            line-height: 1;
-        }
-        .menu-list {
-            list-style: none;
-            padding: 10px 0;
-        }
-        .menu-list li a {
-            display: flex;
-            align-items: center;
-            padding: 15px 25px;
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            border-bottom: 1px solid #f5f5f5;
-            transition: background 0.2s;
-        }
-        .menu-list li a:hover {
-            background: #fff5f5;
-            color: var(--accent);
-        }
-        .menu-list .icon {
-            margin-right: 15px;
-            font-size: 20px;
-            width: 25px;
-            text-align: center;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: Arial, sans-serif;
         }
 
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #a00000;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .nav-desktop { display: none; }
-            .hero-content h1 { font-size: 1.8rem; }
-            .hero-slider { height: 300px; }
-        }
-        @media (min-width: 769px) {
-            .hamburger { display: none; }
+            .hamburger { display: block; }
+            .slider-container { height: 300px; }
+            .slide-overlay h2 { font-size: 1.2rem; }
+            .modal-content { padding: 1.5rem; }
+            header { padding: 1rem 3%; }
+            .container { padding: 1.5rem 3%; }
         }
     </style>
 </head>
-<body class="theme-journal">
+<body>
 
+    <!-- HEADER -->
     <header>
-        <div class="logo-container">
-            <button id="hamburger-btn" class="hamburger">☰</button>
-            <div class="logo">PORTAL JF</div>
-        </div>
-        <div class="nav-desktop">
-            <nav>
-                <ul>
-                    <li><a href="#inicio">Início</a></li>
-                    <li><a href="#politica">Política</a></li>
-                    <li><a href="#economia">Economia</a></li>
-                    <li><a href="#esportes">Esportes</a></li>
-                    <li><a href="#saude">Saúde</a></li>
-                    <li><a href="#entretenimento">Entretenimento</a></li>
-                </ul>
-            </nav>
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Buscar...">
-            </div>
-        </div>
+        <a href="#" class="logo">PORTAL JF - Notícia em Destaque </a>
+        <nav class="nav-desktop">
+            <a href="#inicio">Início</a>
+            <a href="#politica">Política</a>
+            <a href="#economia">Economia</a>
+            <a href="#esportes">Esportes</a>
+            <a href="#saude">Saúde</a>
+            <a onclick="openModal('modal-contato'); return false;">Contato</a>
+        </nav>
+        <button class="hamburger" onclick="toggleSidebar()">☰</button>
     </header>
 
-    <main>
-        <div class="breaking-news-container">
-            <div class="news-carousel" id="breakingNews">
-                <strong>URGENTE:</strong> Carregando notícias de Juiz de Fora...
+    <!-- SIDEBAR MOBILE -->
+    <div class="overlay-sidebar" id="overlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <div style="color:var(--primary); font-size:1.5rem; font-weight:bold; margin-bottom:2rem;">MENU</div>
+        <a href="#inicio" onclick="toggleSidebar()">Início</a>
+        <a href="#politica" onclick="toggleSidebar()">Política</a>
+        <a href="#economia" onclick="toggleSidebar()">Economia</a>
+        <a href="#esportes" onclick="toggleSidebar()">Esportes</a>
+        <a href="#saude" onclick="toggleSidebar()">Saúde</a>
+        <a onclick="openModal('modal-contato'); toggleSidebar();">Contato</a>
+    </div>
+
+    <!-- BREAKING NEWS -->
+    <div class="breaking-news">
+        <span class="breaking-label">JF AGORA</span>
+        <div id="news-ticker">
+            • Vacinação contra gripe ampliada em todas as UBS de Juiz de Fora • Obras na Avenida Rio Branco causam lentidão no trânsito • Festival de Inverno confirma atrações para o próximo mês • Novo recorde de temperatura registrado na Zona da Mata •
+        </div>
+    </div>
+
+    <!-- HERO SLIDER -->
+    <div class="slider-container" id="inicio">
+        <div class="slides" id="slides">
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80')">
+                <div class="slide-overlay">
+                    <h2>Brasil lidera discussões sobre clima na cúpula internacional</h2>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1200&q=80')">
+                <div class="slide-overlay">
+                    <h2>Mercado financeiro projeta crescimento do PIB para o segundo semestre</h2>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80')">
+                <div class="slide-overlay">
+                    <h2>Seleção Brasileira inicia preparação para as eliminatórias</h2>
+                </div>
             </div>
         </div>
+    </div>
 
-        <section id="inicio">
-            <div class="hero-slider">
-                <div class="hero-slides" id="heroSlides">
-                    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80');"></div>
-                    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=1200&q=80');"></div>
-                    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80');"></div>
-                    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=1200&q=80');"></div>
-                    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=1200&q=80');"></div>
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <!-- POLÍTICA -->
+        <h2 class="section-title" id="politica">Política</h2>
+        <div class="news-grid">
+            <article class="news-card">
+                <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=400&q=80" alt="Política">
+                <div class="news-card-content">
+                    <h3>Congresso vota nova lei de diretrizes orçamentárias</h3>
+                    <p>Parlamentares buscam consenso sobre o teto de gastos para o próximo ano fiscal.</p>
                 </div>
-                <div class="hero-content">
-                    <h1>Últimas Notícias do Brasil</h1>
-                    <p>Fique por dentro dos principais acontecimentos do país em tempo real.</p>
+            </article>
+            <article class="news-card">
+                <img src="https://images.unsplash.com/photo-1540910419892-f0c74b0e8967?auto=format&fit=crop&w=400&q=80" alt="Política">
+                <div class="news-card-content">
+                    <h3>STF mantém decisão sobre transparência pública</h3>
+                    <p>Ministros reforçam a necessidade de acesso total aos dados de gastos do governo.</p>
                 </div>
-                <button class="prev-hero" onclick="moveHero(-1)">&#10094;</button>
-                <button class="next-hero" onclick="moveHero(1)">&#10095;</button>
-            </div>
+            </article>
+        </div>
 
-            <h2>Principais Notícias</h2>
-            <div class="news-grid">
-                <article class="card">
-                    <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=400&q=80" alt="Política">
-                    <div class="card-content">
-                        <h3>Lula sanciona reforma tributária com vetos ao texto aprovado</h3>
-                        <p>O presidente Luiz Inácio Lula da Silva sancionou a reforma tributária, unificando cinco impostos em um novo sistema.</p>
-                        <a href="#" class="read-more">Leia mais</a>
-                    </div>
-                </article>
-                <article class="card">
-                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=400&q=80" alt="Economia">
-                    <div class="card-content">
-                        <h3>IBGE: Inflação acumulada em 2024 fecha em 4,5%</h3>
-                        <p>Dados do IBGE mostram desaceleração da inflação, impulsionada pela queda nos preços de alimentos.</p>
-                        <a href="#" class="read-more">Leia mais</a>
-                    </div>
-                </article>
-                <article class="card">
-                    <img src="https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=400&q=80" alt="Esportes">
-                    <div class="card-content">
-                        <h3>Seleção Brasileira vence Argentina e lidera Eliminatórias</h3>
-                        <p>Com gols de Vinicius Jr. e Rodrygo, Brasil assume a ponta das eliminatórias sul-americanas.</p>
-                        <a href="#" class="read-more">Leia mais</a>
-                    </div>
-                </article>
-            </div>
-        </section>
+        <!-- ECONOMIA -->
+        <h2 class="section-title" id="economia">Economia</h2>
+        <div class="news-grid">
+            <article class="news-card">
+                <img src="https://images.unsplash.com/photo-1611974714024-462cd297c8aa?auto=format&fit=crop&w=400&q=80" alt="Economia">
+                <div class="news-card-content">
+                    <h3>Bolsa de valores atinge marca histórica nesta segunda</h3>
+                    <p>Investidores reagem positivamente aos novos dados de exportação do agronegócio.</p>
+                </div>
+            </article>
+            <article class="news-card">
+                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=400&q=80" alt="Economia">
+                <div class="news-card-content">
+                    <h3>Inflação oficial fecha o mês abaixo da meta</h3>
+                    <p>Queda no preço dos alimentos foi o principal fator para o índice positivo.</p>
+                </div>
+            </article>
+        </div>
 
-        <section id="politica">
-            <h2>Política</h2>
-            <div class="news-grid">
-                <article class="card">
-                    <img src="https://images.unsplash.com/photo-1520243947988-b7b79f7873e9?auto=format&fit=crop&w=400&q=80" alt="STF">
-                    <div class="card-content">
-                        <h3>STF inicia julgamento sobre emendas de relator</h3>
-                        <p>O Supremo Tribunal Federal analisa a legalidade das 'emendas pix' no orçamento federal.</p>
-                        <a href="#" class="read-more">Leia mais</a>
-                    </div>
-                </article>
-                <article class="card">
-                    <img src="https://images.unsplash.com/photo-1540910419892-f0c74b0e8967?auto=format&fit=crop&w=400&q=80" alt="Eleições">
-                    <div class="card-content">
-                        <h3>Pré-candidatos à Presidência de 2026 iniciam articulações</h3>
-                        <p>Tarcísio de Freitas e Guilherme Boulos despontam como nomes fortes para a próxima disputa.</p>
-                        <a href="#" class="read-more">Leia mais</a>
-                    </div>
-                </article>
-            </div>
-        </section>
+        <!-- ESPORTES -->
+        <h2 class="section-title" id="esportes">Esportes</h2>
+        <div class="news-grid">
+            <article class="news-card">
+                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=400&q=80" alt="Esportes">
+                <div class="news-card-content">
+                    <h3>Seleção se prepara para clássico sul-americano</h3>
+                    <p>Tite convoca sete novatos para o elenco da próxima rodada das eliminatórias.</p>
+                </div>
+            </article>
+            <article class="news-card">
+                <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=400&q=80" alt="Esportes">
+                <div class="news-card-content">
+                    <h3>Campeonato Mineiro tem nova rodada com surpresas</h3>
+                    <p>Times menores conquistam vitórias impressionantes contra gigantes do estado.</p>
+                </div>
+            </article>
+        </div>
 
-        <section id="economia">
-            <h2>Economia</h2>
-            <div class="news-grid">
-                <article class="card">
-                    <img src="https://images.unsplash.com/photo-1611974714024-462cd297c8aa?auto=format&fit=crop&w=400&q=80" alt="Bolsa">
-                    <div class="card-content">
-                        <h3>B3 bate recorde histórico com Ibovespa em alta</h3>
-                        <p>Queda da Selic impulsiona ações de bancos e varejo na bolsa brasileira esta semana.</p>
-                        <a href="#" class="read-more">Leia mais</a>
-                    </div>
-                </article>
-            </div>
-        </section>
+        <!-- SAÚDE -->
+        <h2 class="section-title" id="saude">Saúde</h2>
+        <div class="news-grid">
+            <article class="news-card">
+                <img src="https://images.unsplash.com/photo-1584308666744-24d5f400f6f1?auto=format&fit=crop&w=400&q=80" alt="Saúde">
+                <div class="news-card-content">
+                    <h3>Novo medicamento oferece esperança contra doença rara</h3>
+                    <p>Testes clínicos mostram 85% de eficácia no tratamento de pacientes.</p>
+                </div>
+            </article>
+            <article class="news-card">
+                <img src="https://images.unsplash.com/photo-1576091160550-112173faf246?auto=format&fit=crop&w=400&q=80" alt="Saúde">
+                <div class="news-card-content">
+                    <h3>Saúde mental no trabalho é tema de novo seminário</h3>
+                    <p>Especialistas discutem impacto da síndrome de burnout na produtividade.</p>
+                </div>
+            </article>
+        </div>
+    </div>
 
-        <section id="esportes">
-            <h2>Esportes</h2>
-            <div class="news-grid">
-                <article class="card">
-                    <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=400&q=80" alt="Futebol">
-                    <div class="card-content">
-                        <h3>Flamengo contrata Endrick por empréstimo</h3>
-                        <p>Atacante retorna ao Brasil para reforçar o Rubro-Negro na disputa do Brasileirão.</p>
-                        <a href="#" class="read-more">Leia mais</a>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <section id="saude">
-            <h2>Saúde</h2>
-            <div class="news-grid">
-                <article class="card">
-                    <img src="https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=400&q=80" alt="Vacina">
-                    <div class="card-content">
-                        <h3>MS amplia vacinação contra dengue em 2026</h3>
-                        <p>Campanha nacional visa reduzir surto que atingiu diversas regiões do país no último ano.</p>
-                        <a href="#" class="read-more">Leia mais</a>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <section id="entretenimento">
-            <h2>Entretenimento</h2>
-            <div class="news-grid">
-                <article class="card">
-                    <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=400&q=80" alt="Cinema">
-                    <div class="card-content">
-                        <h3>Wagner Moura estrela novo thriller nos cinemas</h3>
-                        <p>'Invisível' estreia em janeiro de 2026 e já é cotado para premiações internacionais.</p>
-                        <a href="#" class="read-more">Leia mais</a>
-                    </div>
-                </article>
-            </div>
-        </section>
-    </main>
-
+    <!-- FOOTER -->
     <footer>
-        <p>&copy; 2026 PORTAL JF. Todos os direitos reservados. | <a href="#" id="privacidade-link">Política de Privacidade</a></p>
+        <div class="logo" style="margin-bottom: 1rem;">PORTAL JF</div>
+        <div class="footer-links">
+            <a onclick="openModal('modal-privacidade')">Política de Privacidade</a>
+            <a onclick="openModal('modal-contato')">Contato</a>
+            <a href="#">Anuncie Conosco</a>
+        </div>
+        <p style="font-size: 0.8rem; color: #888;">&copy; 2026 PORTAL JF. Todos os direitos reservados.</p>
     </footer>
 
-    <!-- MENU HAMBURGER E OVERLAY -->
-    <div id="overlay-menu" class="overlay-menu"></div>
-    <nav id="sidebar" class="sidebar">
-        <div class="menu-header">
-            <h3>PORTAL JF</h3>
-            <button id="close-menu-sidebar" class="close-btn-sidebar">&times;</button>
-        </div>
-        <ul class="menu-list">
-            <li><a href="#inicio"><span class="icon">🏠</span>Início</a></li>
-            <li><a href="#politica"><span class="icon">🏛️</span>Política</a></li>
-            <li><a href="#economia"><span class="icon">💰</span>Economia</a></li>
-            <li><a href="#esportes"><span class="icon">⚽</span>Esportes</a></li>
-            <li><a href="#saude"><span class="icon">🏥</span>Saúde</a></li>
-            <li><a href="#entretenimento"><span class="icon">🎭</span>Entretenimento</a></li>
-        </ul>
-    </nav>
-
-    <!-- MODAL PRIVACIDADE LGPD -->
-    <div id="modal-overlay" class="modal-overlay">
+    <!-- MODAL PRIVACIDADE -->
+    <div class="modal" id="modal-privacidade">
         <div class="modal-content">
-            <span class="close-modal" id="close-modal-btn">&times;</span>
-            <h2>Política de Privacidade (LGPD)</h2>
-            <p style="margin-top: 1rem;">Esta política descreve como protegemos seus dados em conformidade com a Lei nº 13.709/2018.</p>
-            <h3 style="margin-top: 1rem;">Dados Coletados</h3>
-            <p>Coletamos apenas informações essenciais para navegação e contato.</p>
-            <h3 style="margin-top: 1rem;">Seus Direitos</h3>
-            <p>Você tem direito ao acesso, correção e exclusão de seus dados a qualquer momento.</p>
+            <button class="close-modal" onclick="closeModal('modal-privacidade')">&times;</button>
+            <h2>Política de Privacidade</h2>
+            <p>O Portal JF está comprometido com a proteção de seus dados pessoais em conformidade com a LGPD.</p>
+            <p style="margin-top: 1rem;"><strong>1. Coleta de Dados:</strong> Coletamos apenas informações necessárias para o envio de newsletters e contato direto.</p>
+            <p style="margin-top: 1rem;"><strong>2. Uso das Informações:</strong> Seus dados nunca serão compartilhados com terceiros para fins comerciais sem sua autorização expressa.</p>
+            <p style="margin-top: 1rem;"><strong>3. Seus Direitos:</strong> Você pode solicitar a exclusão de seus dados de nossa base a qualquer momento através do nosso canal de contato.</p>
+        </div>
+    </div>
+
+    <!-- MODAL CONTATO -->
+    <div class="modal" id="modal-contato">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('modal-contato')">&times;</button>
+            <h2>Fale Conosco</h2>
+            <p style="margin-bottom: 1.5rem; font-size: 0.9rem;">Preencha o formulário abaixo para nos enviar uma mensagem.</p>
+            
+            <form id="form-contato" onsubmit="enviarParaGoogle(event)">
+                <div class="form-group">
+                    <label>Nome Completo *</label>
+                    <input type="text" id="nome" required placeholder="Seu nome">
+                </div>
+                <div class="form-group">
+                    <label>E-mail *</label>
+                    <input type="email" id="email" required placeholder="seu@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Telefone *</label>
+                    <input type="tel" id="telefone" required placeholder="(32) 99999-9999" oninput="mascaraTelefone(this)">
+                </div>
+                <div class="form-group">
+                    <label>Mensagem *</label>
+                    <textarea id="mensagem" required rows="4" placeholder="Como podemos ajudar?"></textarea>
+                </div>
+                <button type="submit" class="btn-submit">✓ ENVIAR MENSAGEM</button>
+            </form>
         </div>
     </div>
 
     <script>
-        // --- BREAKING NEWS ---
-        const newsItems = [
-            "URGENTE: Juiz de Fora anuncia novas obras no centro da cidade para maio.",
-            "SAÚDE: Campanha de vacinação em JF atinge 80% do público-alvo.",
-            "TRÂNSITO: Alterações na Avenida Rio Branco começam nesta segunda-feira.",
-            "CULTURA: Festival de Inverno de Juiz de Fora confirma atrações nacionais.",
-            "ECONOMIA: Comércio de JF projeta crescimento de 5% para o próximo trimestre.",
-            "ESPORTE: Tupi e Tupynambás preparam clássico para o final de semana.",
-            "EDUCAÇÃO: UFJF abre inscrições para novas vagas de intercâmbio.",
-            "CLIMA: Defesa Civil de JF alerta para chuvas isoladas no final da tarde."
-        ];
-        let currentNewsIndex = 0;
-        const newsElement = document.getElementById('breakingNews');
-
-        function rotateNews() {
-            newsElement.style.opacity = 0;
-            setTimeout(() => {
-                newsElement.innerHTML = `<strong>JF AGORA:</strong> ${newsItems[currentNewsIndex]}`;
-                newsElement.style.opacity = 1;
-                currentNewsIndex = (currentNewsIndex + 1) % newsItems.length;
-            }, 500);
-        }
-        setInterval(rotateNews, 5000);
-        rotateNews();
-
-        // --- HERO SLIDER ---
-        let heroIndex = 0;
-        const heroSlides = document.getElementById('heroSlides');
-        function moveHero(direction) {
-            heroIndex = (heroIndex + direction + 5) % 5;
-            heroSlides.style.transform = `translateX(-${heroIndex * 20}%)`;
-        }
-        setInterval(() => moveHero(1), 7000);
-
-        // --- SEARCH & MODAL ---
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const term = e.target.value.toLowerCase();
-            document.querySelectorAll('.card').forEach(card => {
-                const text = card.innerText.toLowerCase();
-                card.style.display = text.includes(term) ? 'block' : 'none';
-            });
-        });
-
-        const modal = document.getElementById('modal-overlay');
-        document.getElementById('privacidade-link').onclick = (e) => {
-            e.preventDefault();
-            modal.classList.add('active');
-        };
-        document.getElementById('close-modal-btn').onclick = () => modal.classList.remove('active');
-
-        // --- MENU HAMBURGER ---
-        const hbBtn = document.getElementById('hamburger-btn');
-        const sidebar = document.getElementById('sidebar');
-        const overlayMenu = document.getElementById('overlay-menu');
-        const closeSidebar = document.getElementById('close-menu-sidebar');
-
+        // SIDEBAR
         function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
             sidebar.classList.toggle('active');
-            overlayMenu.classList.toggle('active');
+            overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
         }
 
-        hbBtn.addEventListener('click', toggleSidebar);
-        closeSidebar.addEventListener('click', toggleSidebar);
-        overlayMenu.addEventListener('click', toggleSidebar);
+        // MODALS
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
 
-        // Fechar ao clicar em links
-        document.querySelectorAll('.menu-list a').forEach(link => {
-            link.addEventListener('click', toggleSidebar);
-        });
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // SLIDER
+        let currentSlide = 0;
+        const slides = document.getElementById('slides');
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % 3;
+            slides.style.transform = `translateX(-${currentSlide * 20}%)`;
+        }, 5000);
+
+        // MASCARA TELEFONE
+        function mascaraTelefone(input) {
+            let value = input.value.replace(/\D/g, "");
+            value = value.replace(/^(\d{2})(\d)/, "($1) $2");
+            value = value.replace(/(\d)(\d{4})$/, "$1-$2");
+            input.value = value;
+        }
+
+        // GOOGLE SHEETS
+        function enviarParaGoogle(event) {
+            event.preventDefault();
+
+            // CONFIGURE AQUI ⬇️
+            const FORM_ID = "1FAIpQLScIYm8WLl1HNjtOtINuk3eCDjRt2BP4cvBO9aRcTOgRvl27Og";        // Substitua pelo ID do seu formulário
+            const ENTRY_NOME = "entry.123456789";        // Substitua pelo ID do campo Nome
+            const ENTRY_EMAIL = "entry.987654321";       // Substitua pelo ID do campo Email
+            const ENTRY_TEL = "entry.111222333";         // Substitua pelo ID do campo Telefone
+            const ENTRY_MSG = "entry.444555666";         // Substitua pelo ID do campo Mensagem
+
+            const nome = encodeURIComponent(document.getElementById('nome').value);
+            const email = encodeURIComponent(document.getElementById('email').value);
+            const tel = encodeURIComponent(document.getElementById('telefone').value);
+            const msg = encodeURIComponent(document.getElementById('mensagem').value);
+
+            const url = `https://docs.google.com/forms/d/e/${FORM_ID}/viewform?usp=pp_url&${ENTRY_NOME}=${nome}&${ENTRY_EMAIL}=${email}&${ENTRY_TEL}=${tel}&${ENTRY_MSG}=${msg}`;
+
+            window.open(url, '_blank');
+            alert("✓ Formulário preenchido! Clique em 'Enviar' na página que abriu.");
+            closeModal('modal-contato');
+            document.getElementById('form-contato').reset();
+        }
     </script>
+
 </body>
 </html>
