@@ -374,13 +374,185 @@
             header { padding: 1rem 3%; }
             .container { padding: 1.5rem 3%; }
         }
+
+        /* Footer Styles */
+        #footer {
+            background: #000;
+            color: rgb(235, 7, 7);
+            padding: 40px 20px 20px;
+        }
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #cc0000;
+        }
+        .links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        .links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .links a:hover {
+            color: #cc0000;
+        }
+        .whatsapp {
+            color: #cc0000;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .whatsapp a {
+            color: #cc0000;
+            text-decoration: none;
+        }
+        .whatsapp a:hover {
+            color: white;
+        }
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #ccc;
+            width: 100%;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .modal-content {
+            background-color: #000;
+            margin: 5% auto;
+            padding: 0;
+            border: 2px solid #cc0000;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            position: relative;
+            color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            color: #cc0000;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .close:hover {
+            color: white;
+        }
+        .modal-body {
+            padding: 40px 30px 30px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .modal-body h2 {
+            color: #cc0000;
+            margin-bottom: 20px;
+        }
+        .modal-body h3 {
+            color: #cc0000;
+            margin: 20px 0 10px;
+        }
+        .modal-body p {
+            margin-bottom: 15px;
+        }
+
+        /* Cookie Banner */
+        #cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #000000 0%, #cc0000 50%, #aa0000 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .cookie-content p {
+            margin: 0;
+            flex: 1;
+            min-width: 250px;
+            font-size: 14px;
+        }
+        .cookie-content a {
+            color: #fff;
+            text-decoration: underline;
+        }
+        .cookie-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .cookie-btn {
+            padding: 12px 24px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            min-width: 120px;
+        }
+        #accept-cookies {
+            background: #cc0000;
+            color: white;
+        }
+        #accept-cookies:hover {
+            background: #ff3333;
+        }
+        #reject-cookies {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        #reject-cookies:hover {
+            background: white;
+            color: #000;
+        }
+
+        @media (max-width: 768px) {
+            .flex-container { flex-direction: column; text-align: center; }
+            .links { flex-direction: column; gap: 15px; }
+            #cookie-banner { flex-direction: column; text-align: center; }
+            .cookie-buttons { width: 100%; justify-content: center; }
+        }
     </style>
 </head>
 <body>
 
     <!-- HEADER -->
     <header>
-        <a href="#" class="logo">PORTAL JF - Notícia em Destaque </a>
+        <a href="#" class="logo">PORTAL JF </a>
         <nav class="nav-desktop">
             <a href="#inicio">Início</a>
             <a href="#politica">Política</a>
@@ -510,20 +682,28 @@
                 </div>
             </article>
         </div>
-    </div>
+     </div>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="logo" style="margin-bottom: 1rem;">PORTAL JF</div>
-        <div class="footer-links">
-            <a onclick="openModal('modal-privacidade')">Política de Privacidade</a>
-            <a onclick="openModal('modal-contato')">Contato</a>
-            <a href="#">Anuncie Conosco</a>
-        </div>
-        <p style="font-size: 0.8rem; color: #888;">&copy; 2026 PORTAL JF. Todos os direitos reservados.</p>
-    </footer>
+       <!-- FOOTER -->
+        <footer id="footer">
+            <div class="footer-container">
+                <div class="footer-logo">PORTAL JF</div>
+                <div class="footer-links">
+                    <a href="#" id="link-privacidade">Política de Privacidade</a>
+                    <span class="separator">|</span>
+                    <a href="#" id="link-termos">Contato</a>
+                    <span class="separator">|</span>
+                    <a href="#" id="anunciar-link">Anuncie Conosco</a>
+                </div>
+                <div class="footer-copyright">
+                    &copy; 2026 PORTAL JF. Todos os direitos reservados.
+                </div>
+            </div>
+        </footer>
 
-    <!-- MODAL PRIVACIDADE -->
+        
+
+     <!-- MODAL PRIVACIDADE -->
     <div class="modal" id="modal-privacidade">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal('modal-privacidade')">&times;</button>
@@ -542,28 +722,82 @@
             <h2>Fale Conosco</h2>
             <p style="margin-bottom: 1.5rem; font-size: 0.9rem;">Preencha o formulário abaixo para nos enviar uma mensagem.</p>
             
-            <form id="form-contato" onsubmit="enviarParaGoogle(event)">
+            
+            <form id="form-contato" action="https://formspree.io/f/mnjwaqzz" method="POST">
                 <div class="form-group">
                     <label>Nome Completo *</label>
-                    <input type="text" id="nome" required placeholder="Seu nome">
+                    <input type="text" name="nome" required placeholder="Seu nome">
                 </div>
                 <div class="form-group">
                     <label>E-mail *</label>
-                    <input type="email" id="email" required placeholder="seu@email.com">
+                    <input type="email" name="email" required placeholder="seu@email.com">
                 </div>
                 <div class="form-group">
                     <label>Telefone *</label>
-                    <input type="tel" id="telefone" required placeholder="(32) 99999-9999" oninput="mascaraTelefone(this)">
+                    <input type="tel" name="telefone" required placeholder="(32) 99999-9999" oninput="mascaraTelefone(this)">
                 </div>
                 <div class="form-group">
                     <label>Mensagem *</label>
-                    <textarea id="mensagem" required rows="4" placeholder="Como podemos ajudar?"></textarea>
+                    <textarea name="message" required rows="4" placeholder="Como podemos ajudar?"></textarea>
                 </div>
+                
+                <input type="hidden" name="_subject" value="🔴 Novo Contato - Portal JF">
+                <input type="hidden" name="_next" value="https://portaljf.com.br/obrigado.html">
+                
                 <button type="submit" class="btn-submit">✓ ENVIAR MENSAGEM</button>
             </form>
-        </div>
+                
+         </div>
     </div>
 
+    <!-- MODAL TERMOS DE USO -->
+        <div id="modal-termos" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="modal-body">
+                    <h2>Termos de Uso</h2>
+                    <p><strong>Última atualização: Abril 2026</strong></p>
+                    <p>Ao acessar ou utilizar o Portal JF, você concorda com estes Termos de Uso.</p>
+                    
+                    <h3>1. Descrição do Serviço</h3>
+                    <p>O Portal JF é um site de notícias com conteúdo jornalístico, opiniões e publicidade.</p>
+                    
+                    <h3>2. Conteúdo e Propriedade Intelectual</h3>
+                    <p>Todo conteúdo é propriedade do Portal JF. Proibida reprodução sem autorização. Uso pessoal permitido, comercial proibido.</p>
+                    
+                    <h3>3. Comportamento do Usuário</h3>
+                    <p>Proibido: conteúdo ilegal, difamatório, spam, hacking. Reservamo-nos o direito de banir usuários.</p>
+                    
+                    <h3>4. Links para Terceiros</h3>
+                    <p>Links externos não são endossados pelo Portal JF. Acessa por sua conta e risco.</p>
+                    
+                    <h3>5. Isenção de Responsabilidade</h3>
+                    <p>O conteúdo é fornecido "como está", sem garantias.</p>
+                    
+                    <h3>6. Publicidade</h3>
+                    <p>Anúncios de terceiros não refletem nossa opinião.</p>
+                    
+                    <h3>7. Alterações nos Termos</h3>
+                    <p>Podemos alterar estes termos a qualquer momento. Uso contínuo implica aceitação.</p>
+                    
+                    <h3>8. Lei Aplicável</h3>
+                    <p>Termos regidos pelas leis da República Federativa do Brasil. Foro: Juiz de Fora/MG.</p>
+                    
+                    <h3>9. Contato</h3>
+                    <p>Dúvidas? contato@portaljf.com.br</p>
+                </div>
+            </div>
+        </div>
+                <!-- COOKIE CONSENT BANNER -->
+            <div id="cookie-banner">
+                <div class="cookie-content">
+                    <p>Usamos cookies para melhorar sua experiência e personalizar conteúdo. <a href="#" id="cookie-policy">Saiba mais</a>.</p>
+                </div>
+                <div class="cookie-buttons">
+                    <button id="accept-cookies" class="cookie-btn">Aceitar</button>
+                    <button id="reject-cookies" class="cookie-btn">Rejeitar</button>
+                </div>
+            </div>
     <script>
         // SIDEBAR
         function toggleSidebar() {
@@ -592,37 +826,86 @@
             slides.style.transform = `translateX(-${currentSlide * 20}%)`;
         }, 5000);
 
-        // MASCARA TELEFONE
-        function mascaraTelefone(input) {
-            let value = input.value.replace(/\D/g, "");
-            value = value.replace(/^(\d{2})(\d)/, "($1) $2");
-            value = value.replace(/(\d)(\d{4})$/, "$1-$2");
-            input.value = value;
+        // Modal Functionality
+        const modalPrivacidade = document.getElementById('modal-privacidade');
+        const modalTermos = document.getElementById('modal-termos');
+        const closes = document.querySelectorAll('.close');
+
+        // Close modals
+        closes.forEach(close => {
+            close.onclick = function() {
+                modalPrivacidade.style.display = 'none';
+                modalTermos.style.display = 'none';
+            };
+        });
+
+        // Close on outside click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
+
+        // Open modals
+        document.getElementById('link-privacidade').onclick = function() {
+            modalPrivacidade.style.display = 'block';
+            return false;
+        };
+        document.getElementById('link-termos').onclick = function() {
+            modalTermos.style.display = 'block';
+            return false;
+        };
+
+        // Cookie Policy link
+        document.getElementById('cookie-policy').onclick = function() {
+            modalPrivacidade.style.display = 'block';
+            return false;
+        };
+
+        // Anuncie Conosco redireciona para WhatsApp
+        document.getElementById('anunciar-link').onclick = function() {
+            window.open('https://wa.me/5532991806474?text=Ol%C3%A1%2C%20gostaria%20de%20anunciar%20no%20Portal%20JF!', '_blank');
+            return false;
+};
+
+        // Cookie Consent
+        const cookieBanner = document.getElementById('cookie-banner');
+        const acceptBtn = document.getElementById('accept-cookies');
+        const rejectBtn = document.getElementById('reject-cookies');
+        const CONSENT_KEY = 'portaljf_cookieConsent';
+        const EXPIRY_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
+
+        function hasValidConsent() {
+            const consentStr = localStorage.getItem(CONSENT_KEY);
+            if (!consentStr) return false;
+            try {
+                const consent = JSON.parse(consentStr);
+                return consent.choice && (Date.now() - consent.timestamp) < EXPIRY_MS;
+            } catch (e) {
+                return false;
+            }
         }
 
-        // GOOGLE SHEETS
-        function enviarParaGoogle(event) {
-            event.preventDefault();
-
-            // CONFIGURE AQUI ⬇️
-            const FORM_ID = "1FAIpQLScIYm8WLl1HNjtOtINuk3eCDjRt2BP4cvBO9aRcTOgRvl27Og";        // Substitua pelo ID do seu formulário
-            const ENTRY_NOME = "entry.123456789";        // Substitua pelo ID do campo Nome
-            const ENTRY_EMAIL = "entry.987654321";       // Substitua pelo ID do campo Email
-            const ENTRY_TEL = "entry.111222333";         // Substitua pelo ID do campo Telefone
-            const ENTRY_MSG = "entry.444555666";         // Substitua pelo ID do campo Mensagem
-
-            const nome = encodeURIComponent(document.getElementById('nome').value);
-            const email = encodeURIComponent(document.getElementById('email').value);
-            const tel = encodeURIComponent(document.getElementById('telefone').value);
-            const msg = encodeURIComponent(document.getElementById('mensagem').value);
-
-            const url = `https://docs.google.com/forms/d/e/${FORM_ID}/viewform?usp=pp_url&${ENTRY_NOME}=${nome}&${ENTRY_EMAIL}=${email}&${ENTRY_TEL}=${tel}&${ENTRY_MSG}=${msg}`;
-
-            window.open(url, '_blank');
-            alert("✓ Formulário preenchido! Clique em 'Enviar' na página que abriu.");
-            closeModal('modal-contato');
-            document.getElementById('form-contato').reset();
+        if (!hasValidConsent()) {
+            cookieBanner.style.display = 'flex';
         }
+
+        acceptBtn.onclick = function() {
+            localStorage.setItem(CONSENT_KEY, JSON.stringify({
+                choice: 'accepted',
+                timestamp: Date.now()
+            }));
+            cookieBanner.style.display = 'none';
+        };
+
+        rejectBtn.onclick = function() {
+            localStorage.setItem(CONSENT_KEY, JSON.stringify({
+                choice: 'rejected',
+                timestamp: Date.now()
+            }));
+            cookieBanner.style.display = 'none';
+        };
+        
     </script>
 
 </body>
