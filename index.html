@@ -689,11 +689,13 @@
             <div class="footer-container">
                 <div class="footer-logo">PORTAL JF</div>
                 <div class="footer-links">
-                    <a href="#" id="link-privacidade">Política de Privacidade</a>
+                    <a href="#" onclick="openModal('modal-privacidade'); return false;">Política de Privacidade</a>
                     <span class="separator">|</span>
-                    <a href="#" id="link-termos">Contato</a>
+                    <a href="#" onclick="openModal('modal-termos'); return false;">Termos de Uso</a>
                     <span class="separator">|</span>
-                    <a href="#" id="anunciar-link">Anuncie Conosco</a>
+                    <a href="#" onclick="openModal('modal-contato'); return false;">Contato</a>
+                    <span class="separator">|</span>
+                    <a href="#" onclick="openModal('modal-anuncie'); return false;">Anuncie Conosco</a>
                 </div>
                 <div class="footer-copyright">
                     &copy; 2026 PORTAL JF. Todos os direitos reservados.
@@ -723,7 +725,7 @@
             <p style="margin-bottom: 1.5rem; font-size: 0.9rem;">Preencha o formulário abaixo para nos enviar uma mensagem.</p>
             
             
-            <form id="form-contato" action="https://formspree.io/f/mnjwaqzz" method="POST">
+            <form id="form-contato" action="https://formspree.io/f/xqenaagw" method="POST">
                 <div class="form-group">
                     <label>Nome Completo *</label>
                     <input type="text" name="nome" required placeholder="Seu nome">
@@ -740,10 +742,6 @@
                     <label>Mensagem *</label>
                     <textarea name="message" required rows="4" placeholder="Como podemos ajudar?"></textarea>
                 </div>
-                
-                <input type="hidden" name="_subject" value="🔴 Novo Contato - Portal JF">
-                <input type="hidden" name="_next" value="https://portaljf.com.br/obrigado.html">
-                
                 <button type="submit" class="btn-submit">✓ ENVIAR MENSAGEM</button>
             </form>
                 
@@ -799,7 +797,8 @@
                 </div>
             </div>
     <script>
-        // SIDEBAR
+       
+       // SIDEBAR
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('overlay');
@@ -808,15 +807,69 @@
         }
 
         // MODALS
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-            document.body.style.overflow = 'hidden';
+       
+
+        // Abrir Modal
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
         }
 
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-            document.body.style.overflow = 'auto';
+        // Fechar Modal
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
         }
+
+        // Limpar formulário após envio
+        function limparFormulario(formId) {
+            const form = document.getElementById(formId);
+            if (form) {
+                form.reset();
+            }
+        }
+
+        // Todos os X funcionando
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.close').forEach(btn => {
+                btn.onclick = function(e) {
+                    e.preventDefault();
+                    const modal = btn.closest('.modal');
+                    if (modal) {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                };
+            });
+
+            // Fechar ao clicar fora
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.onclick = function(e) {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                };
+            });
+
+            // Interceptar envio do formulário Formspree
+            document.querySelectorAll('form[action*="formspree.io"]').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    // Formspree faz o envio normalmente
+                    // Após sucesso, limpar campos
+                    setTimeout(() => {
+                        limparFormulario(form.id);
+                        closeModal('modal-contato');
+                    }, 500);
+                });
+            });
+        });
 
         // SLIDER
         let currentSlide = 0;
@@ -826,6 +879,8 @@
             slides.style.transform = `translateX(-${currentSlide * 20}%)`;
         }, 5000);
 
+
+        
         // Modal Functionality
         const modalPrivacidade = document.getElementById('modal-privacidade');
         const modalTermos = document.getElementById('modal-termos');
