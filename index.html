@@ -555,9 +555,9 @@
         <a href="#" class="logo">PORTAL JF </a>
         <nav class="nav-desktop">
             <a href="#inicio">Início</a>
-            <a href="#politica">Política</a>
-            <a href="#economia">Economia</a>
-            <a href="#esportes">Esportes</a>
+            <a href="#Anucios">Anúcios</a>
+            <a href="#informacoes  ">Informações</a>
+            <a href="#blog">Blog</a>
             <a href="#saude">Saúde</a>
             <a onclick="openModal('modal-contato'); return false;">Contato</a>
         </nav>
@@ -569,16 +569,16 @@
     <div class="sidebar" id="sidebar">
         <div style="color:var(--primary); font-size:1.5rem; font-weight:bold; margin-bottom:2rem;">MENU</div>
         <a href="#inicio" onclick="toggleSidebar()">Início</a>
-        <a href="#politica" onclick="toggleSidebar()">Política</a>
-        <a href="#economia" onclick="toggleSidebar()">Economia</a>
-        <a href="#esportes" onclick="toggleSidebar()">Esportes</a>
+        <a href="#anuncios" onclick="toggleSidebar()">Anúcios</a>
+        <a href="#informacoes  " onclick="toggleSidebar()">Informações</a>
+        <a href="#blog" onclick="toggleSidebar()">Blog</a>
         <a href="#saude" onclick="toggleSidebar()">Saúde</a>
         <a onclick="openModal('modal-contato'); toggleSidebar();">Contato</a>
     </div>
 
     <!-- BREAKING NEWS -->
     <div class="breaking-news">
-        <span class="breaking-label">JF AGORA</span>
+        <span class="breaking-label">DESTAQUES</span>
         <div id="news-ticker">
             • Vacinação contra gripe ampliada em todas as UBS de Juiz de Fora • Obras na Avenida Rio Branco causam lentidão no trânsito • Festival de Inverno confirma atrações para o próximo mês • Novo recorde de temperatura registrado na Zona da Mata •
         </div>
@@ -607,18 +607,18 @@
 
     <!-- MAIN CONTENT -->
     <div class="container">
-        <!-- POLÍTICA -->
-        <h2 class="section-title" id="politica">Política</h2>
+        <!-- Anúcios -->
+        <h2 class="section-title" id="anuncios">Anúcios</h2>
         <div class="news-grid">
             <article class="news-card">
-                <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=400&q=80" alt="Política">
+                <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=400&q=80" alt="Anunicos">
                 <div class="news-card-content">
                     <h3>Congresso vota nova lei de diretrizes orçamentárias</h3>
                     <p>Parlamentares buscam consenso sobre o teto de gastos para o próximo ano fiscal.</p>
                 </div>
             </article>
             <article class="news-card">
-                <img src="https://images.unsplash.com/photo-1540910419892-f0c74b0e8967?auto=format&fit=crop&w=400&q=80" alt="Política">
+                <img src="https://images.unsplash.com/photo-1540910419892-f0c74b0e8967?auto=format&fit=crop&w=400&q=80" alt="Anuncios">
                 <div class="news-card-content">
                     <h3>STF mantém decisão sobre transparência pública</h3>
                     <p>Ministros reforçam a necessidade de acesso total aos dados de gastos do governo.</p>
@@ -626,37 +626,430 @@
             </article>
         </div>
 
-        <!-- ECONOMIA -->
-        <h2 class="section-title" id="economia">Economia</h2>
-        <div class="news-grid">
-            <article class="news-card">
-                <img src="https://images.unsplash.com/photo-1611974714024-462cd297c8aa?auto=format&fit=crop&w=400&q=80" alt="Economia">
-                <div class="news-card-content">
-                    <h3>Bolsa de valores atinge marca histórica nesta segunda</h3>
-                    <p>Investidores reagem positivamente aos novos dados de exportação do agronegócio.</p>
-                </div>
-            </article>
-            <article class="news-card">
-                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=400&q=80" alt="Economia">
-                <div class="news-card-content">
-                    <h3>Inflação oficial fecha o mês abaixo da meta</h3>
-                    <p>Queda no preço dos alimentos foi o principal fator para o índice positivo.</p>
-                </div>
-            </article>
-        </div>
+        <!-- INFORMAÇÕES -->
+        <h2 class="section-title" id="informacoes">Informações</h2>
+        <!-- Este é o bloco COMPLETO para SUBSTITUIR SOMENTE a área de anúncios antiga. Cole logo APÓS o <h2 class="section-title" id="anuncios">Anúcios</h2> dentro do <div class="container"> existente. NÃO altere o resto do site. -->
+<div class="jf-ads-wrapper">
+    <div class="jf-ads-row">
+      <div class="jf-slider-container">
+        <div class="jf-slides"></div>
+        <button class="jf-prev">‹</button>
+        <button class="jf-next">›</button>
+        <div class="jf-dots"></div>
+      </div>
+      <div class="jf-sidebar">
+        <h3>Notícias Recentes</h3>
+        <div class="jf-side-list"></div>
+      </div>
+    </div>
+    <style>
+      .jf-ads-wrapper {
+        --jf-primary: #007B5F;
+        --jf-secondary: #17a2b8;
+      }
+  
+      .jf-ads-row {
+        display: flex;
+        gap: 2rem;
+        align-items: stretch;
+        margin-top: 2rem;
+      }
+  
+      @media screen and (max-width: 768px) {
+        .jf-ads-row {
+          flex-direction: column;
+          gap: 1rem;
+        }
+        .jf-slider-container {
+          height: 300px;
+        }
+        .jf-sidebar {
+          max-width: 100%;
+        }
+      }
+  
+      .jf-slider-container {
+        flex: 1;
+        position: relative;
+        height: 450px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      }
+  
+      .jf-slides {
+        display: flex;
+        height: 100%;
+        transition: transform 0.6s ease-in-out;
+      }
+  
+      .jf-slide {
+        flex: 0 0 100%;
+        height: 100%;
+        position: relative;
+      }
+  
+      .jf-slide-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+  
+      .jf-slide-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 100%);
+        color: white;
+        padding: 2rem 1.5rem 1.5rem;
+        box-sizing: border-box;
+      }
+  
+      .jf-slide-content h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.4rem;
+      }
+  
+      .jf-slide-content a {
+        color: white;
+        text-decoration: none;
+      }
+  
+      .jf-slide-content a:hover {
+        text-decoration: underline;
+      }
+  
+      .jf-slide-content p {
+        margin: 0;
+        font-size: 0.95rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+  
+      .jf-prev,
+      .jf-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0,123,95,0.8);
+        color: white;
+        border: none;
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 10;
+        transition: background 0.3s;
+        border-radius: 50%;
+      }
+  
+      .jf-prev { left: 15px; }
+      .jf-next { right: 15px; }
+  
+      .jf-prev:hover,
+      .jf-next:hover {
+        background: var(--jf-primary);
+      }
+  
+      .jf-dots {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 10;
+      }
+  
+      .jf-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.5);
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+  
+      .jf-dot.active,
+      .jf-dot:hover {
+        background: white;
+      }
+  
+      .jf-sidebar {
+        flex: 0 0 380px;
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+      }
+  
+      .jf-sidebar h3 {
+        margin: 0 0 1.5rem 0;
+        color: var(--jf-primary);
+        font-size: 1.3rem;
+      }
+  
+      .jf-side-list {
+        flex: 1;
+      }
+  
+      .jf-side-item {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #eee;
+      }
+  
+      .jf-side-item:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+  
+      .jf-thumb {
+        width: 90px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 6px;
+        flex-shrink: 0;
+      }
+  
+      .jf-side-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+  
+      .jf-date {
+        color: #666;
+        font-size: 0.85rem;
+        margin-bottom: 0.3rem;
+      }
+  
+      .jf-side-text h4 {
+        margin: 0;
+        font-size: 1.1rem;
+      }
+  
+      .jf-side-text a {
+        color: #333;
+        text-decoration: none;
+      }
+  
+      .jf-side-text a:hover {
+        color: var(--jf-primary);
+      }
+      
+      
+    </style>
 
-        <!-- ESPORTES -->
-        <h2 class="section-title" id="esportes">Esportes</h2>
+
+    <script>
+
+        
+      /* OBSERVAÇÃO: Se a API/proxy falhar ou houver problemas de CORS, o ideal é usar um backend próprio para proxy do RSS. Fallback com 6 notícias de teste é ativado automaticamente. Classes prefixadas evitam conflitos. */
+      (function() {
+        const FALLBACK_NEWS = [
+          {
+            title: "Prefeitura de Juiz de Fora inaugura novo Centro de Saúde",
+            link: "https://www.pjf.mg.gov.br/noticias/centro-saude",
+            thumbnail: "https://picsum.photos/400/300?random=1",
+            description: "A nova unidade vai atender mais de 5 mil moradores na região leste da cidade.",
+            pubDate: "01/10/2024"
+          },
+          {
+            title: "Juiz de Fora recebe investimentos em infraestrutura viária",
+            link: "https://g1.globo.com/mg/zona-da-mata/juiz-fora",
+            thumbnail: "https://picsum.photos/400/300?random=2",
+            description: "Obra de recapeamento de ruas beneficia bairros periféricos.",
+            pubDate: "30/09/2024"
+          },
+          {
+            title: "Evento cultural anima praça central neste fim de semana",
+            link: "https://tribunadejf.com.br/evento-cultural",
+            thumbnail: "https://picsum.photos/400/300?random=3",
+            description: "Shows e apresentações gratuitas para toda a família.",
+            pubDate: "29/09/2024"
+          },
+          {
+            title: "Escolas municipais investem em tecnologia educacional",
+            link: "https://pjf.mg.gov.br/educacao-tech",
+            thumbnail: "https://picsum.photos/400/300?random=4",
+            description: "Laboratórios de informática são entregues em 10 unidades escolares.",
+            pubDate: "28/09/2024"
+          },
+          {
+            title: "Campanha de vacinação contra gripe é prorrogada",
+            link: "https://g1.globo.com/saude",
+            thumbnail: "https://picsum.photos/400/300?random=5",
+            description: "Postos de saúde estendem atendimento até o final do mês.",
+            pubDate: "27/09/2024"
+          },
+          {
+            title: "Parque da Lajinha passa por revitalização",
+            link: "https://www.pjf.mg.gov.br/parque-lajinha",
+            thumbnail: "https://picsum.photos/400/300?random=6",
+            description: "Novos equipamentos e paisagismo melhoram área de lazer.",
+            pubDate: "26/09/2024"
+          }
+        ];
+  
+        let newsData = [];
+        let currentIndex = 0;
+        let autoplayInterval;
+        let totalSlides = 0;
+  
+        const sliderContainer = document.querySelector('.jf-slider-container');
+        const slidesCont = document.querySelector('.jf-slides');
+        const prevBtn = document.querySelector('.jf-prev');
+        const nextBtn = document.querySelector('.jf-next');
+        const dotsCont = document.querySelector('.jf-dots');
+        const sideList = document.querySelector('.jf-side-list');
+  
+        async function loadNews() {
+          try {
+            const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=%22Juiz+de+Fora%22&hl=pt-BR&gl=BR&ceid=BR:pt-BR');
+            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+            const response = await fetch(apiUrl);
+            if (!response.ok) throw new Error('Resposta inválida');
+            const data = await response.json();
+            if (data.status === 'ok' && data.items && data.items.length > 0) {
+              return data.items.slice(0, 6).map(item => ({
+                title: item.title,
+                link: item.link,
+                thumbnail: item.thumbnail || `https://picsum.photos/400/300?random=${Math.floor(Math.random() * 20)}`,
+                description: item.description ? item.description.replace(/<[^>]*>/g, '').trim().slice(0, 120) + '...' : 'Sem descrição disponível.',
+                pubDate: new Date(item.pubDate).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+              }));
+            }
+          } catch (e) {
+            console.warn('Falha ao carregar notícias reais:', e);
+          }
+          return FALLBACK_NEWS;
+        }
+  
+        function renderSlider(items) {
+          slidesCont.innerHTML = items.map(item => `
+            <div class="jf-slide">
+              <img src="${item.thumbnail}" alt="${item.title}" class="jf-slide-img" loading="lazy">
+              <div class="jf-slide-content">
+                <h3><a href="${item.link}" target="_blank" rel="noopener">${item.title}</a></h3>
+                <p>${item.description}</p>
+              </div>
+            </div>
+          `).join('');
+          totalSlides = items.length;
+          renderDots(totalSlides);
+          goToSlide(0);
+        }
+  
+        function renderDots(count) {
+          dotsCont.innerHTML = '';
+          for (let i = 0; i < count; i++) {
+            const dot = document.createElement('span');
+            dot.className = 'jf-dot';
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsCont.appendChild(dot);
+          }
+        }
+  
+        function renderSidebar(items) {
+          sideList.innerHTML = items.map(item => `
+            <div class="jf-side-item">
+              <img src="${item.thumbnail}" alt="${item.title}" class="jf-thumb" loading="lazy">
+              <div class="jf-side-text">
+                <span class="jf-date">${item.pubDate}</span>
+                <h4><a href="${item.link}" target="_blank" rel="noopener">${item.title}</a></h4>
+              </div>
+            </div>
+          `).join('');
+        }
+  
+        function goToSlide(index) {
+          currentIndex = index;
+          slidesCont.style.transform = `translateX(-${currentIndex * 100}%)`;
+          updateDots();
+        }
+  
+        function updateDots() {
+          Array.from(dotsCont.children).forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentIndex);
+          });
+        }
+  
+        function nextSlide() {
+          goToSlide((currentIndex + 1) % totalSlides);
+        }
+  
+        function prevSlide() {
+          goToSlide((currentIndex - 1 + totalSlides) % totalSlides);
+        }
+  
+        function startAutoplay() {
+          stopAutoplay();
+          autoplayInterval = setInterval(nextSlide, 5000);
+        }
+  
+        function stopAutoplay() {
+          if (autoplayInterval) clearInterval(autoplayInterval);
+        }
+  
+        async function init() {
+          newsData = await loadNews();
+          renderSlider(newsData.slice(0, 3));
+          renderSidebar(newsData.slice(3, 6));
+  
+          prevBtn.addEventListener('click', prevSlide);
+          nextBtn.addEventListener('click', nextSlide);
+          sliderContainer.addEventListener('mouseenter', stopAutoplay);
+          sliderContainer.addEventListener('mouseleave', startAutoplay);
+  
+          startAutoplay();
+        }
+  
+        init();
+        setInterval(init, 10 * 60 * 1000); // Atualiza a cada 10 minutos
+      })();
+    </script>
+  </div>
+        
+        
+</style>
+<div class="container">
+    <div class="imagens">
+        <div class="imagem">
+            
+            <div style="text-align: center;">
+                <h3>Horário e Itinerário</h3>
+                <p>A forma mais segura de chegar na hora.</p>
+              </div>
+            <img src="https://xfyhluhnseiwdookonuk.supabase.co/storage/v1/object/public/hero-imagens/Tinerario%20611.png" alt="Itinerário 611">
+        </div>
+        <div class="imagem">
+            <img src="https://xfyhluhnseiwdookonuk.supabase.co/storage/v1/object/public/hero-imagens/Tinerario%20612.png" alt="Itinerário 612">
+        </div>
+    </div>
+</div>
+        
+
+        <!-- BLOG -->
+        <h2 class="section-title" id="blog">Blog</h2>
         <div class="news-grid">
             <article class="news-card">
-                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=400&q=80" alt="Esportes">
+                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=400&q=80" alt="Blog">
                 <div class="news-card-content">
                     <h3>Seleção se prepara para clássico sul-americano</h3>
                     <p>Tite convoca sete novatos para o elenco da próxima rodada das eliminatórias.</p>
                 </div>
             </article>
             <article class="news-card">
-                <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=400&q=80" alt="Esportes">
+                <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=400&q=80" alt="Blog">
                 <div class="news-card-content">
                     <h3>Campeonato Mineiro tem nova rodada com surpresas</h3>
                     <p>Times menores conquistam vitórias impressionantes contra gigantes do estado.</p>
